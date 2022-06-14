@@ -17,8 +17,7 @@ class Usuario {
         })
     }
     getBookNames(){
-        const bookNames = this.libros.map(x => x.nombre)
-        return bookNames
+        return this.libros.map(x => x.nombre)
     }
 
     addMascota(mascota){
