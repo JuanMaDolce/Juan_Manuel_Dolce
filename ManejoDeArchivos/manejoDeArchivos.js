@@ -1,6 +1,6 @@
+const { error } = require('console');
 const fs = require('fs')
 const myArray = [];
-let id = 1
 const emptyArray = []
 
 class Contenedor {
@@ -11,8 +11,7 @@ class Contenedor {
     }
 
     save(object){
-        let newId = id++; 
-        this.id = newId;
+        this.id = myArray.length + 1;
         myArray.push(object)
         console.log(`Producto agregado ${this.title} ID ${this.id}`)
         try{
@@ -20,8 +19,8 @@ class Contenedor {
         } catch (err) {
             console.log(err)
         }
-    }
-    getAll(){
+    } 
+    async getAll(){
         try{
             const contenido = fs.readFileSync('productos.txt')
             let viewObject = JSON.parse(contenido)
@@ -41,18 +40,18 @@ class Contenedor {
             console.log(null)
         }
     }
-    deleteById(id){
+    async deleteById(id){
         const newArray = myArray.filter(p => p.id !== id)
         console.log(newArray)
         try{
-            fs.writeFileSync('productos.txt', JSON.stringify(newArray))
+            await fs.promises.writeFile('productos.txt', JSON.stringify(newArray))
         } catch (err) {
             console.log(err)
         }
     }
-    deleteAll(){
+    async deleteAll(){
         try{
-            fs.writeFileSync('productos.txt', JSON.stringify(emptyArray))
+            await fs.promises.writeFile('productos.txt', JSON.stringify(emptyArray))
         } catch (err) {
             console.log(err)
         }
@@ -69,7 +68,7 @@ productoTres.save(productoTres);
 
 productoTres.getAll();
 
-productoTres.getById(3);
+productoTres.getById(2);
 
 productoTres.deleteById(2);
 
